@@ -1,0 +1,19 @@
+{
+  "packages": ["packages/*"],
+  "npmClient": "yarn",
+  "npmClientArgs": ["--no-lockfile"],
+  "useWorkspaces": true,
+  "version": "0.0.1",
+  "command": {
+    "version": {
+      "ignoreChanges": ["**/*.{spec,test}.{js,jsx,ts,tsx}", "**/*.md"],
+      "conventionalCommits": true,
+      "message": "chore(release): %s",
+      "push": false,
+      "yes": true
+    },
+    "publish": {
+      "contents": "dist"
+    }
+  }
+}

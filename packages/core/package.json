@@ -1,0 +1,23 @@
+{
+  "name": "@mono/core",
+  "version": "0.0.1",
+  "author": "Jay Chen <gcobs135102@gmail.com>",
+  "license": "MIT",
+  "main": "index.cjs.js",
+  "module": "index.esm.js",
+  "types": "index.d.ts",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "clean": "yarn build:clean && yarn test:clean",
+    "build:clean": "node ../../scripts/cleanBuild.js",
+    "build": "node ../../scripts/build.js",
+    "test:clean": "rm -rf ./coverage",
+    "test": "jest --coverage"
+  },
+  "dependencies": {
+    "@mono/shared": "^0.0.1"
+  }
+}
