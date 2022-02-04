@@ -1,6 +1,6 @@
 {
   "name": "@varm/i18n",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Jay Chen <gcobs135102@gmail.com>",
   "license": "MIT",
   "main": "index.cjs.js",
@@ -18,7 +18,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@varm/core": "^0.0.1"
+    "@varm/core": "^0.0.2"
   },
   "peerDependencies": {
     "vue-i18n": "^9.1.9"
