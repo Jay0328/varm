@@ -22,7 +22,7 @@
     "postinstall": "husky install",
     "version": "lerna version",
     "postversion": "lerna run build --stream --sort -- --release",
-    "release": "lerna publish --from-package"
+    "release": "lerna publish from-package"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.1.0",
