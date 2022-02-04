@@ -5,8 +5,8 @@ const { gzipSync } = require('zlib');
 const { compress } = require('brotli');
 
 function checkPackageSize(pkg, formats) {
-  if (formats.includes('umd')) {
-    checkFileSize(path.resolve(pkg.distPath, 'index.umd.js'));
+  for (const format of formats) {
+    checkFileSize(path.resolve(pkg.distPath, `index.${format}.js`));
   }
 }
 
@@ -20,7 +20,7 @@ function checkFileSize(filePath) {
   const gzipped = gzipSync(file);
   const gzippedSize = (gzipped.length / 1024).toFixed(2) + 'kb';
   const compressed = compress(file);
-  const compressedSize = (compressed.length / 1024).toFixed(2) + 'kb';
+  const compressedSize = ((compressed?.length ?? 0) / 1024).toFixed(2) + 'kb';
 
   console.log(
     `${chalk.gray(chalk.bold(path.basename(filePath)))} min:${minSize} / gzip:${gzippedSize} / brotli:${compressedSize}`

@@ -15,8 +15,13 @@ const formatToRollupFormat = {
 };
 
 const globals = {
-  '@mono/shared': 'MonoShared',
-  '@mono/core': 'MonoCore',
+  vue: 'Vue',
+  'vue-i18n': 'VueI18n',
+  yup: 'Yup',
+  '@varm/shared': 'VarmShared',
+  '@varm/core': 'VarmCore',
+  '@varm/i18n': 'VarmI18n',
+  '@varm/yup': 'VarmYup',
 };
 
 class PackageBuilder {
@@ -77,10 +82,15 @@ class PackageBuilder {
     const isEsm = format === 'esm';
     const isUmd = rollupFormat === 'umd';
     const { dependencies = {}, peerDependencies = {}, sideEffects = false, version } = this.pkg.json;
-    const externalDependencies = Object.keys({
-      ...dependencies,
-      ...peerDependencies,
-    });
+    const externalDependencies = [
+      ...Object.keys({
+        ...dependencies,
+        ...peerDependencies,
+      }),
+      'vue',
+      'vue-i18n',
+      'yup',
+    ];
     const output = {
       banner: this.pkg.banner,
       file: path.resolve(this.pkg.distPath, `index.${format}.js`),

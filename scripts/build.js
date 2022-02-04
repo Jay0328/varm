@@ -8,7 +8,7 @@ const release = args.release || false;
 build();
 
 async function build() {
-  const pkg = new Package(process.env.PWD);
+  const pkg = new Package(process.cwd());
   const builder = new PackageBuilder(pkg);
   const formats = ['esm', 'cjs', 'umd'];
 

@@ -4,9 +4,9 @@
     "baseUrl": ".",
     "rootDir": ".",
     "paths": {
-      "@mono/*": ["packages/*/src"]
+      "@varm/*": ["packages/*/src"]
     }
   },
-  "include": ["packages/global.d.ts", "packages/*/src", "**/*.spec.*"],
+  "include": ["packages/global.d.ts", "packages/*/src", "**/*.spec.*", "__fixtures__"],
   "exclude": ["node_modules"]
 }
