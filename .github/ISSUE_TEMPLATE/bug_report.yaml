@@ -67,7 +67,7 @@ body:
       description: If you have an error log or stacktrack, copy it and paste it here
       render: shell
 
-  - type: checkboxes
+  - type: dropdown
     id: browsers
     attributes:
       label: What browsers are you seeing the problem on?
