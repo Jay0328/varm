@@ -1,5 +1,6 @@
 name: 🚀 Feature Request
 description: Suggest a feature for Varm
+title: "[Feature]: "
 
 body:
   - type: textarea
