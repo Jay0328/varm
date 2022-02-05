@@ -1,0 +1,38 @@
+name: '🚀 Feature request'
+description: Suggest a feature for Varm
+
+body:
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggestion
+      render: true
+      placeholder: A description of what you want to see added or changed.
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-cases
+    attributes:
+      label: Use Cases
+      render: true
+      placeholder: | 
+        What do you want to use this for?
+        What shortcomings exist with current approaches?
+        What workarounds are you using in the meantime?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives-considered
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: true
