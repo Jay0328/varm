@@ -1,0 +1,96 @@
+name: 🐛 Bug Report
+description: Report a bug
+title: '[Bug]: '
+
+body:
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: 🙁 Actual behavior
+      placeholder: What happened, and why it was wrong
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: 🙂 Expected behavior
+      placeholder: What you expected to happen instead, and why
+    validations:
+      required: true
+
+  - type: dropdown
+    id: affected-packages
+    attributes:
+      label: Which @varm/* package(s) are the source of the bug?
+      options:
+        - shared
+        - core
+        - i18n
+        - yup
+        - Don't known / other
+      multiple: true
+    validations:
+      required: true
+
+  - type: dropdown
+    id: version
+    attributes:
+      label: Version
+      description: What version of Varm are you running?
+      options:
+        - 0.x
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Reproduction steps
+      description: How do you trigger this bug? Please walk us through it step by step.
+      value: |
+        1.
+        2.
+        3.
+        ...
+
+  - type: input
+    id: reproduction-link
+    attributes:
+      label: Reproducation link
+      description: If you can reproduce this issue on codesandbox/codepen or others, please paste the link here
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: If you have an error log or stacktrack, copy it and paste it here
+      render: shell
+
+  - type: checkboxes
+    id: browsers
+    attributes:
+      label: What browsers are you seeing the problem on?
+      options:
+        - label: Firefox
+        - label: Chrome
+        - label: Safari
+        - label: Microsoft Edge
+      multiple: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Please provide the environment you discovered this bug in (run `ng version`)
+      render: true
+      placeholder: |
+        Node: 16.13.2
+        Package Manager: yarn 1.22.10
+        OS: linux x64
+        ...
+
+        Package                         Version
+        ---------------------------------------------------------
+        vue                             3.2.9
+        typescript                      4.5.5
+        ...
