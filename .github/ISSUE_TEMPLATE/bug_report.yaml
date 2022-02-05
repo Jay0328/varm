@@ -72,10 +72,10 @@ body:
     attributes:
       label: What browsers are you seeing the problem on?
       options:
-        - label: Firefox
-        - label: Chrome
-        - label: Safari
-        - label: Microsoft Edge
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
       multiple: true
 
   - type: textarea
