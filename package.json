@@ -4,6 +4,7 @@
   "workspaces": [
     "packages/*"
   ],
+  "description": "Form Validation for Vue.js",
   "author": "Jay Chen <gcobs135102@gmail.com>",
   "license": "MIT",
   "scripts": {
