@@ -1,11 +1,25 @@
 {
   "name": "@varm/i18n",
   "version": "0.0.2",
+  "description": "I18n for Varm",
   "author": "Jay Chen <gcobs135102@gmail.com>",
   "license": "MIT",
   "main": "index.cjs.js",
   "module": "index.esm.js",
   "types": "index.d.ts",
+  "repository": {
+    "url": "https://github.com/Jay0328/varm.git",
+    "type": "git",
+    "directory": "packages/i18n"
+  },
+  "keywords": [
+    "vue",
+    "vue-i18n",
+    "i18n",
+    "validation",
+    "validator",
+    "form"
+  ],
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
