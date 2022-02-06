@@ -1,11 +1,24 @@
 {
   "name": "@varm/yup",
   "version": "0.0.2",
+  "description": "The custom validator for Varm w/ yup",
   "author": "Jay Chen <gcobs135102@gmail.com>",
   "license": "MIT",
   "main": "index.cjs.js",
   "module": "index.esm.js",
   "types": "index.d.ts",
+  "repository": {
+    "url": "https://github.com/Jay0328/varm.git",
+    "type": "git",
+    "directory": "packages/yup"
+  },
+  "keywords": [
+    "vue",
+    "yup",
+    "validation",
+    "validator",
+    "form"
+  ],
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
