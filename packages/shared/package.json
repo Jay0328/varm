@@ -1,11 +1,17 @@
 {
   "name": "@varm/shared",
   "version": "0.0.2",
+  "description": "Shared codes for Varm",
   "author": "Jay Chen <gcobs135102@gmail.com>",
   "license": "MIT",
   "main": "index.cjs.js",
   "module": "index.esm.js",
   "types": "index.d.ts",
+  "repository": {
+    "url": "https://github.com/Jay0328/varm.git",
+    "type": "git",
+    "directory": "packages/shared"
+  },
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
