@@ -5,6 +5,7 @@ export * from './form';
 export * from './useField';
 export * from './useFieldGroup';
 export * from './useFieldArray';
+export * from './useForm';
 
 export * from './useErrorMessage';
 
