@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.5](https://github.com/Jay0328/varm/compare/v0.0.4...v0.0.5) (2022-02-15)
+
+### Bug Fixes
+
+- **core:** can pass ref to options of useForm ([2c1e54c](https://github.com/Jay0328/varm/commit/2c1e54c445ef689929ce665568d5b1de79363e61))
+
 ## [0.0.4](https://github.com/Jay0328/varm/compare/v0.0.3...v0.0.4) (2022-02-07)
 
 ### Bug Fixes
