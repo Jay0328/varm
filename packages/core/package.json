@@ -1,6 +1,6 @@
 {
   "name": "@varm/core",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Form Validation for Vue.js",
   "author": "Jay Chen <gcobs135102@gmail.com>",
   "license": "MIT",
@@ -30,6 +30,6 @@
     "test": "jest"
   },
   "dependencies": {
-    "@varm/shared": "^0.0.5"
+    "@varm/shared": "^0.0.6"
   }
 }

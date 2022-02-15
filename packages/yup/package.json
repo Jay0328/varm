@@ -1,6 +1,6 @@
 {
   "name": "@varm/yup",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "The custom validator for Varm w/ yup",
   "author": "Jay Chen <gcobs135102@gmail.com>",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@varm/core": "^0.0.5"
+    "@varm/core": "^0.0.6"
   },
   "peerDependencies": {
     "yup": "^0.32.11"
