@@ -5,7 +5,7 @@ import { FieldsOfGroup, ValuesOfGroup, FieldGroup, FieldGroupOptions, FieldReset
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 export interface FormOptions<TFields extends FieldsOfGroup<any>> extends FieldGroupOptions {
-  onSubmit(values: ValuesOfGroup<TFields>): void;
+  onSubmit(values: ValuesOfGroup<TFields>): Promise<void>;
   /**
    * @default false
    */
