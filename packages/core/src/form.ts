@@ -17,15 +17,17 @@ export class Form<TFields extends FieldsOfGroup<any>> extends FieldGroup<TFields
 
   constructor(fields: TFields, protected override readonly options: FormOptions<TFields>) {
     super(fields, options);
+
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
-  override reset = (options?: FieldResetOptions<DeepPartial<ValuesOfGroup<TFields>>>) => {
+  override reset(options?: FieldResetOptions<DeepPartial<ValuesOfGroup<TFields>>>) {
     super.reset(options);
     this.isSubmitting.value = false;
-  };
+  }
 
-  onSubmit = async (event: Event): Promise<void> => {
-    event.preventDefault();
+  async onSubmit(event?: Event): Promise<void> {
+    event?.preventDefault();
 
     const { onSubmit, validateOnSubmit = false } = this.options;
 
@@ -42,7 +44,7 @@ export class Form<TFields extends FieldsOfGroup<any>> extends FieldGroup<TFields
     } finally {
       this.isSubmitting.value = false;
     }
-  };
+  }
 }
 
 /* eslint-enable */

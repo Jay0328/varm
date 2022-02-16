@@ -89,25 +89,35 @@ export abstract class AbstractField<TValue> {
   abstract readonly touched: Readonly<Ref<boolean>>;
   abstract readonly dirty: Readonly<Ref<boolean>>;
 
-  constructor(protected readonly options: AbstractFieldOptions) {}
+  constructor(protected readonly options: AbstractFieldOptions) {
+    this.setParent = this.setParent.bind(this);
+    this.setTouched = this.setTouched.bind(this);
+    this.setValue = this.setValue.bind(this);
+    this.patchValue = this.patchValue.bind(this);
+    this.setTouched = this.setTouched.bind(this);
+    this.setErrors = this.setErrors.bind(this);
+    this.reset = this.reset.bind(this);
+    this.validate = this.validate.bind(this);
+    this.validateAsync = this.validateAsync.bind(this);
+  }
 
-  setParent = (parent: FieldParent | null) => {
+  setParent(parent: FieldParent | null) {
     this.parent.value = parent;
-  };
+  }
 
   abstract setTouched(touched: boolean): void;
 
   abstract setValue(value: TValue): void;
   abstract patchValue(value: any): void;
 
-  setErrors = (errors: ValidationError | readonly ValidationError[] | null) => {
+  setErrors(errors: ValidationError | readonly ValidationError[] | null) {
     this._errors.value = coercionValidationErrors(errors);
     this.selfStatus.value = this.calculateSelfStatus();
-  };
+  }
 
   abstract reset(options?: FieldResetOptions<any>): void;
 
-  validate = () => {
+  validate() {
     this.cancelPendingAsyncValidation();
 
     if (this.enabled.value) {
@@ -138,25 +148,25 @@ export abstract class AbstractField<TValue> {
       this._errors.value = null;
       this.selfStatus.value = FieldStatus.VALID;
     }
-  };
+  }
 
-  validateAsync = async () => {
+  async validateAsync() {
     this.validate();
 
     if (this.lastAsyncValidationCtx) {
       await this.lastAsyncValidationCtx.promise;
     }
-  };
+  }
 
   /**
    * should be triggered at last
    */
-  protected triggerValidationEffect = () => {
+  protected triggerValidationEffect() {
     watch([this.value, this.composedValidator, this.composedAsyncValidator, this.enabled], () => this.validate(), {
       immediate: true,
       flush: 'sync',
     });
-  };
+  }
 
   private cancelPendingAsyncValidation() {
     this.lastAsyncValidationCtx = null;
@@ -200,18 +210,18 @@ export class Field<TValue> extends AbstractField<TValue> {
     this.triggerValidationEffect();
   }
 
-  override setTouched = (touched: boolean) => {
+  override setTouched(touched: boolean) {
     this._touched.value = touched;
-  };
+  }
 
-  override setValue = (value: TValue) => {
+  override setValue(value: TValue) {
     this.value.value = value;
-  };
-  override patchValue = (value: TValue) => {
+  }
+  override patchValue(value: TValue) {
     this.setValue(value);
-  };
+  }
 
-  override reset = (options: FieldResetOptions<TValue> = {}) => {
+  override reset(options: FieldResetOptions<TValue> = {}) {
     const { value, touched = false } = options;
 
     if (value !== undefined) {
@@ -220,7 +230,7 @@ export class Field<TValue> extends AbstractField<TValue> {
 
     this.setValue(this.initialValue.value);
     this.setTouched(touched);
-  };
+  }
 }
 
 export type AbstractFieldGroupOptions = AbstractFieldOptions;
@@ -283,11 +293,20 @@ export abstract class AbstractFieldGroup<
 
   abstract readonly fields: TFields;
 
-  override setTouched = (touched: boolean) => {
-    this.forEachField((field) => field.setTouched(touched));
-  };
+  constructor(options: AbstractFieldGroupOptions) {
+    super(options);
 
-  override reset = (options?: FieldResetOptions<DeepPartial<TValue>>) => {
+    this.forEachField = this.forEachField.bind(this);
+    this.someField = this.someField.bind(this);
+    this.everyField = this.everyField.bind(this);
+    this.reduceFields = this.reduceFields.bind(this);
+  }
+
+  override setTouched(touched: boolean) {
+    this.forEachField((field) => field.setTouched(touched));
+  }
+
+  override reset(options?: FieldResetOptions<DeepPartial<TValue>>) {
     const { value, ...restOptions } = options || {};
 
     this.forEachField((field, name) => {
@@ -299,17 +318,16 @@ export abstract class AbstractFieldGroup<
 
       field.reset(fieldOptions);
     });
-  };
+  }
 
-  protected shouldFieldValueCollected = (field: AbstractField<any>) => field.enabled.value || !this.enabled.value;
+  protected shouldFieldValueCollected(field: AbstractField<any>) {
+    return field.enabled.value || !this.enabled.value;
+  }
 
-  protected abstract forEachField(cb: (field: AbstractField<any>, name: TFieldName) => void): void;
-  protected abstract someField(condition: (field: AbstractField<any>) => boolean): boolean;
-  protected abstract everyField(condition: (field: AbstractField<any>) => boolean): boolean;
-  protected abstract reduceFields<T>(
-    fn: (acc: T, child: AbstractField<any>, name: TFieldName) => T,
-    initialValue: T
-  ): T;
+  abstract forEachField(cb: (field: AbstractField<any>, name: TFieldName) => void): void;
+  abstract someField(condition: (field: AbstractField<any>) => boolean): boolean;
+  abstract everyField(condition: (field: AbstractField<any>) => boolean): boolean;
+  abstract reduceFields<T>(fn: (acc: T, child: AbstractField<any>, name: TFieldName) => T, initialValue: T): T;
 }
 
 export type FieldsOfGroup<TValueOrFields extends Record<string, any>> = {
@@ -358,11 +376,15 @@ export class FieldGroup<TFields extends FieldsOfGroup<any>> extends AbstractFiel
   constructor(fields: TFields, options: FieldGroupOptions) {
     super(options);
 
+    this.addField = this.addField.bind(this);
+    this.setField = this.setField.bind(this);
+    this.removeField = this.removeField.bind(this);
+
     groupFieldsHelpers.forEachField(fields, (field, name) => this.registerField(name, field));
     this.triggerValidationEffect();
   }
 
-  override setValue = (value: ValuesOfGroup<TFields>) => {
+  override setValue(value: ValuesOfGroup<TFields>) {
     this.forEachField((field, name) => {
       if (value[name] !== undefined) {
         field.setValue(value[name]);
@@ -370,8 +392,8 @@ export class FieldGroup<TFields extends FieldsOfGroup<any>> extends AbstractFiel
         console.warn(`Must supply a value for field with name: '${name}'`);
       }
     });
-  };
-  override patchValue = (value: DeepPartial<ValuesOfGroup<TFields>>) => {
+  }
+  override patchValue(value: DeepPartial<ValuesOfGroup<TFields>>) {
     Object.keys(value as any).forEach((key) => {
       const field: AbstractField<any> | undefined = this.fields[key];
 
@@ -379,38 +401,41 @@ export class FieldGroup<TFields extends FieldsOfGroup<any>> extends AbstractFiel
         field.patchValue((value as any)[key]);
       }
     });
-  };
+  }
 
-  override forEachField = (cb: (field: AbstractField<any>, name: keyof TFields) => void) => {
+  override forEachField(cb: (field: AbstractField<any>, name: keyof TFields) => void) {
     groupFieldsHelpers.forEachField(this.fields, cb);
-  };
+  }
 
-  override someField = (condition: (field: AbstractField<any>) => boolean) =>
-    groupFieldsHelpers.someField(this.fields, condition);
+  override someField(condition: (field: AbstractField<any>) => boolean) {
+    return groupFieldsHelpers.someField(this.fields, condition);
+  }
 
-  override everyField = (condition: (field: AbstractField<any>) => boolean) =>
-    groupFieldsHelpers.everyField(this.fields, condition);
+  override everyField(condition: (field: AbstractField<any>) => boolean) {
+    return groupFieldsHelpers.everyField(this.fields, condition);
+  }
 
-  override reduceFields = <T>(fn: (acc: T, child: AbstractField<any>, name: keyof TFields) => T, initialValue: T): T =>
-    groupFieldsHelpers.reduceFields(this.fields, fn, initialValue);
+  override reduceFields<T>(fn: (acc: T, child: AbstractField<any>, name: keyof TFields) => T, initialValue: T): T {
+    return groupFieldsHelpers.reduceFields(this.fields, fn, initialValue);
+  }
 
-  addField = <T extends keyof TFields>(name: T, field: TFields[T]): AbstractField<any> => {
+  addField<T extends keyof TFields>(name: T, field: TFields[T]): AbstractField<any> {
     return this.fields[name] || this.registerField(name, field);
-  };
+  }
 
-  setField = <T extends keyof TFields>(name: T, field: TFields[T]) => {
+  setField<T extends keyof TFields>(name: T, field: TFields[T]) {
     this.removeField(name);
     this.registerField(name, field);
-  };
+  }
 
-  removeField = (name: keyof TFields) => {
+  removeField(name: keyof TFields) {
     const field: AbstractField<any> = this.fields[name];
 
     if (field) {
       field.setParent(null);
       delete this.fields[name];
     }
-  };
+  }
 
   private registerField(name: keyof TFields, field: AbstractField<any>) {
     field.setParent(this);
@@ -440,11 +465,16 @@ export class FieldArray<TValue, TField extends AbstractField<any> = FieldOfArray
   constructor(fields: TField[], options: FieldArrayOptions) {
     super(options);
 
+    this.at = this.at.bind(this);
+    this.push = this.push.bind(this);
+    this.insert = this.insert.bind(this);
+    this.removeAt = this.removeAt.bind(this);
+
     fields.forEach((field) => this.push(field));
     this.triggerValidationEffect();
   }
 
-  override setValue = (value: TValue[]) => {
+  override setValue(value: TValue[]) {
     value.forEach((v, index) => {
       if (v !== undefined) {
         const field = this.fields[index];
@@ -458,8 +488,8 @@ export class FieldArray<TValue, TField extends AbstractField<any> = FieldOfArray
         console.warn(`Must supply a value for field at index ${index}`);
       }
     });
-  };
-  override patchValue = (value: DeepPartial<TValue>[]) => {
+  }
+  override patchValue(value: DeepPartial<TValue>[]) {
     value.forEach((v, index) => {
       const field = this.fields[index];
 
@@ -467,32 +497,41 @@ export class FieldArray<TValue, TField extends AbstractField<any> = FieldOfArray
         field.patchValue(v);
       }
     });
-  };
+  }
 
-  override forEachField = (cb: (field: AbstractField<any>, index: number) => void) => this.fields.forEach(cb);
-  override someField = (condition: (field: AbstractField<any>) => boolean) => this.fields.some(condition);
-  override everyField = (condition: (field: AbstractField<any>) => boolean) => this.fields.every(condition);
-  override reduceFields = <T>(fn: (acc: T, child: AbstractField<any>, index: number) => T, initialValue: T): T =>
-    this.fields.reduce(fn, initialValue);
+  override forEachField(cb: (field: AbstractField<any>, index: number) => void) {
+    this.fields.forEach(cb);
+  }
+  override someField(condition: (field: AbstractField<any>) => boolean) {
+    return this.fields.some(condition);
+  }
+  override everyField(condition: (field: AbstractField<any>) => boolean) {
+    return this.fields.every(condition);
+  }
+  override reduceFields<T>(fn: (acc: T, child: AbstractField<any>, index: number) => T, initialValue: T): T {
+    return this.fields.reduce(fn, initialValue);
+  }
 
-  at = (index: number) => this.fields[this.adjustIndex(index)];
+  at(index: number) {
+    return this.fields[this.adjustIndex(index)];
+  }
 
-  push = (field: TField) => {
+  push(field: TField) {
     field.setParent(this);
     this.fields.push(field);
-  };
+  }
 
-  insert = (index: number, field: TField) => {
+  insert(index: number, field: TField) {
     field.setParent(this);
     this.fields.splice(index, 0, field);
-  };
+  }
 
-  removeAt = (index: number) => {
+  removeAt(index: number) {
     const adjustedIndex = this.adjustIndex(index);
 
     this.fields[adjustedIndex]?.setParent(null);
     this.fields.splice(adjustedIndex, 1);
-  };
+  }
 
   private adjustIndex(index: number): number {
     if (!this.fields.length) {
