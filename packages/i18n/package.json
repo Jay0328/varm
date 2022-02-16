@@ -1,6 +1,6 @@
 {
   "name": "@varm/i18n",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "I18n for Varm",
   "author": "Jay Chen <gcobs135102@gmail.com>",
   "license": "MIT",
@@ -32,7 +32,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@varm/core": "^0.0.6"
+    "@varm/core": "^0.0.7"
   },
   "peerDependencies": {
     "vue-i18n": "^9.1.9"

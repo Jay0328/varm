@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.7](https://github.com/Jay0328/varm/compare/v0.0.6...v0.0.7) (2022-02-16)
+
+### Bug Fixes
+
+- **core:** onSubmit can return unknown or Promise<unknown> ([ace73c8](https://github.com/Jay0328/varm/commit/ace73c87ffd110ac460fa12b7fc4b73f64745d75))
+- **core:** use bind(this) instead of arrow function ([0ace496](https://github.com/Jay0328/varm/commit/0ace4969b031eaa5242bfef340a2069276493eb5))
+
 ## [0.0.6](https://github.com/Jay0328/varm/compare/v0.0.5...v0.0.6) (2022-02-15)
 
 ### Bug Fixes
