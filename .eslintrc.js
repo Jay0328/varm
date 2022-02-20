@@ -117,5 +117,14 @@ module.exports = {
         '@typescript-eslint/no-var-requires': 'off',
       },
     },
+    {
+      files: ['docs/.vitepress/**/*.ts'],
+      parserOptions: {
+        project: ['docs/tsconfig.json'],
+      },
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+      },
+    },
   ],
 };
